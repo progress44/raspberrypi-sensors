@@ -1,0 +1,3 @@
+[submodule "otto"]
+	path = otto
+	url = git@github.com:progress44/otto-ai.git
