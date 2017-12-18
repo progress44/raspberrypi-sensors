@@ -44,17 +44,43 @@ def boschHumidity():
 async def boschAirQuality():
 	boschSensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
 
-	boschSensors.set_gas_heater_temperature(200)
+	start_time = time.time()
+	curr_time = time.time()
+	burn_in_time = 300
+	burn_in_data = []
+
+	boschSensors.set_gas_heater_temperature(320)
 	boschSensors.set_gas_heater_duration(150)
 	boschSensors.select_gas_heater_profile(0)
 
-	time.sleep(150)
+	while curr_time - start_time < burn_in_time:
+		if boschSensors.data.get_sensor_data() and boschSensors.data.heat_stable:
+			gas = boschSensors.data.gas_resistance
+			burn_in_data.append(gas)
+			time.sleep(1)
 
-	if sensor.data.heat_stable():
-		return sensor.data.gas_resistance
-	else:
-		return None
+	gas_baseline = sum(burn_in_data[-50:]) / 50.0
+	hum_baseline = 40.0
+	hum_weighting = 0.25
 
+	if boschSensors.data.get_sensor_data() and boschSensors.data.heat_stable:
+		hum_offset = boschSensors.data.humidity - hum_baseline
+		gas_offset = gas_baseline - sensor.data.gas_resistance
+
+		if hum_offset > 0:
+			hum_score = (100 - hum_baseline - hum_offset) / (100 - hum_baseline) * (hum_weighting * 100)
+		else:
+			hum_score = (hum_baseline + hum_offset) / hum_baseline * (hum_weighting * 100)
+
+		if gas_offset > 0:
+			gas_score = (sensor.data.gas_resistance / gas_baseline) * (100 - (hum_weighting * 100))
+		else:
+			gas_score = 100 - (hum_weighting * 100)
+
+		air_quality_score = hum_score + gas_score
+
+	boschSensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
+	return air_quality_score
 
 
 # EnviroPHAT
@@ -110,7 +136,9 @@ async def slowSensors():
 	enviroLightsOn()
 	time.sleep(1)
 	enviroLightsOff()
-	return await boschAirQuality()
+	aq = await boschAirQuality()
+	print([aq])
+	return aq
 
 def signal_handler(signal, frame):  
     loop.stop()
