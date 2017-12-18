@@ -129,7 +129,7 @@ async def fastSensors():
 
 	enviroLightsOff()
 	time.sleep(5)
-
+	asyncio.ensure_future(fastSensors())
 	return None
 
 async def slowSensors():
