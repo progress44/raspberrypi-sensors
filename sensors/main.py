@@ -108,7 +108,7 @@ async def fastSensors():
 
 async def slowSensors():
 	enviroLightsOn()
-	sleep(1)
+	time.sleep(1)
 	enviroLightsOff()
 	return await boschAirQuality()
 
