@@ -54,6 +54,7 @@ async def boschAirQuality():
 	boschSensors.select_gas_heater_profile(0)
 
 	while curr_time - start_time < burn_in_time:
+		curr_time = time.time()
 		if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 			gas = boschSensors.data.gas_resistance
 			print(gas)
@@ -130,7 +131,6 @@ async def fastSensors():
 	print(temp, pressure, humidity, motion, light, analog)
 
 	enviroLightsOff()
-	time.sleep(5)
 	asyncio.ensure_future(fastSensors())
 	return None
 
