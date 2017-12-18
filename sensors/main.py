@@ -2,6 +2,7 @@
 
 import sys
 import signal
+import asyncio
 import time
 import bme680
 
