@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 import sys
+import signal
 import time
 import bme680
 
 from envirophat import light, weather, motion, analog, leds
 
+loop = asyncio.get_event_loop()
 
 # BME680
 boschSensors = bme680.BME680()
@@ -47,7 +49,7 @@ async def boschAirQuality():
 
 	time.sleep(150)
 
-	if sensor.data.heat_stable:
+	if sensor.data.heat_stable():
 		return sensor.data.gas_resistance
 	else:
 		return None
@@ -74,39 +76,46 @@ def enviroRGB():
 	return light.rgb()
 
 def enviroMotion():
-	return [motion.magnetometer(), motion.accelerometer(), motion.heading()]
+	magnet = motion.magnetometer() 
+	accel = motion.accelerometer()
+	return [[magnet[0], magnet[1], magnet[2]], [accel[0], accel[1], accel[2]], motion.heading()]
 
 def enviroAnalog():
 	return analog.read_all()
 
 
 # Group data
-def __init__():
+async def fastSensors():
 	boschSetup()
 
-	while True:
-		enviroLightsOn()
-		time.sleep(1)
+	enviroLightsOn()
+	time.sleep(1)
 
-		temp 		= [enviroTemp(), boschTemp()]
-		pressure 	= [enviroPressure(), boschPressure()]
-		humidity 	= [boschHumidity()]
-		motion 		= enviroMotion()
-		light 		= [enviroLight(), enviroRGB()]
-		analog 		= [enviroAnalog()]
+	temp 		= [enviroTemp(), boschTemp()]
+	pressure 	= [enviroPressure(), boschPressure()]
+	humidity 	= [boschHumidity()]
+	motion 		= enviroMotion()
+	light 		= [enviroLight(), enviroRGB()]
+	analog 		= [enviroAnalog()]
 
-		print(temp, pressure, humidity, motion, light, analog)
+	print(temp, pressure, humidity, motion, light, analog)
 
-		enviroLightsOff()
-		time.sleep(1)
-		enviroLightsOn()
+	enviroLightsOff()
+	time.sleep(5)
 
-		airQuality = [yield from boschAirQuality()]
-		print(airQuality);
+	return None
 
-		enviroLightsOff()
-		time.sleep(5)
+async def slowSensors():
+	enviroLightsOn()
+	sleep(1)
+	enviroLightsOff()
+	return await boschAirQuality()
 
+def signal_handler(signal, frame):  
+    loop.stop()
+    sys.exit(0)
 
-
-__init__()
+signal.signal(signal.SIGINT, signal_handler)
+asyncio.ensure_future(fastSensors())
+asyncio.ensure_future(slowSensors())
+loop.run_forever()
