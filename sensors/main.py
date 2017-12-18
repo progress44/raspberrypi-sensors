@@ -81,7 +81,7 @@ def enviroAnalog():
 
 
 # Group data
-def __init__:
+def __init__():
 	boschSetup()
 
 	while True:
@@ -102,4 +102,4 @@ def __init__:
 
 
 
-
+__init__()
