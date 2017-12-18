@@ -54,7 +54,7 @@ async def boschAirQuality():
 	boschSensors.select_gas_heater_profile(0)
 
 	while curr_time - start_time < burn_in_time:
-		if boschSensors.data.get_sensor_data() and boschSensors.data.heat_stable:
+		if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 			gas = boschSensors.data.gas_resistance
 			burn_in_data.append(gas)
 			time.sleep(1)
@@ -63,7 +63,7 @@ async def boschAirQuality():
 	hum_baseline = 40.0
 	hum_weighting = 0.25
 
-	if boschSensors.data.get_sensor_data() and boschSensors.data.heat_stable:
+	if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 		hum_offset = boschSensors.data.humidity - hum_baseline
 		gas_offset = gas_baseline - sensor.data.gas_resistance
 
