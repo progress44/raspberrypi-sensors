@@ -56,6 +56,7 @@ async def boschAirQuality():
 	while curr_time - start_time < burn_in_time:
 		if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 			gas = boschSensors.data.gas_resistance
+			print(gas)
 			burn_in_data.append(gas)
 			time.sleep(1)
 
@@ -78,6 +79,7 @@ async def boschAirQuality():
 			gas_score = 100 - (hum_weighting * 100)
 
 		air_quality_score = hum_score + gas_score
+		print(air_quality_score)
 
 	boschSensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
 	return air_quality_score
@@ -138,6 +140,7 @@ async def slowSensors():
 	enviroLightsOff()
 	aq = await boschAirQuality()
 	print([aq])
+	asyncio.ensure_future(slowSensors())
 	return aq
 
 def signal_handler(signal, frame):  
