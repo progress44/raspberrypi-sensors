@@ -46,7 +46,7 @@ async def boschAirQuality():
 
 	start_time = time.time()
 	curr_time = time.time()
-	burn_in_time = 300
+	burn_in_time = 60
 	burn_in_data = []
 
 	boschSensors.set_gas_heater_temperature(320)
@@ -67,7 +67,7 @@ async def boschAirQuality():
 
 	if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 		hum_offset = boschSensors.data.humidity - hum_baseline
-		gas_offset = gas_baseline - sensor.data.gas_resistance
+		gas_offset = gas_baseline - boschSensors.data.gas_resistance
 
 		if hum_offset > 0:
 			hum_score = (100 - hum_baseline - hum_offset) / (100 - hum_baseline) * (hum_weighting * 100)
@@ -75,7 +75,7 @@ async def boschAirQuality():
 			hum_score = (hum_baseline + hum_offset) / hum_baseline * (hum_weighting * 100)
 
 		if gas_offset > 0:
-			gas_score = (sensor.data.gas_resistance / gas_baseline) * (100 - (hum_weighting * 100))
+			gas_score = (boschSensors.data.gas_resistance / gas_baseline) * (100 - (hum_weighting * 100))
 		else:
 			gas_score = 100 - (hum_weighting * 100)
 
@@ -116,6 +116,7 @@ def enviroAnalog():
 
 # Group data
 async def fastSensors():
+	time.sleep(30)
 	boschSetup()
 
 	enviroLightsOn()
@@ -130,6 +131,8 @@ async def fastSensors():
 
 	print(temp, pressure, humidity, motion, light, analog)
 
+	# make server request
+
 	enviroLightsOff()
 	asyncio.ensure_future(fastSensors())
 	return None
@@ -140,6 +143,9 @@ async def slowSensors():
 	enviroLightsOff()
 	aq = await boschAirQuality()
 	print([aq])
+
+	# make server request
+
 	asyncio.ensure_future(slowSensors())
 	return aq
 
