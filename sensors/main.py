@@ -38,7 +38,7 @@ def boschHumidity():
 	else:
 		return None
 
-def boschAirQuality():
+async def boschAirQuality():
 	boschSensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
 
 	boschSensors.set_gas_heater_temperature(200)
@@ -95,7 +95,14 @@ def __init__():
 		light 		= [enviroLight(), enviroRGB()]
 		analog 		= [enviroAnalog()]
 
-		airQuality = [boschAirQuality()]
+		print(temp, pressure, humidity, motion, light, analog)
+
+		enviroLightsOff()
+		time.sleep(1)
+		enviroLightsOn()
+
+		airQuality = [await boschAirQuality()]
+		print(airQuality);
 
 		enviroLightsOff()
 		time.sleep(5)
