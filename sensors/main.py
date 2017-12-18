@@ -45,7 +45,7 @@ def boschAirQuality():
 	boschSensors.set_gas_heater_duration(150)
 	boschSensors.select_gas_heater_profile(0)
 
-	sleep(150)
+	time.sleep(150)
 
 	if sensor.data.heat_stable:
 		return sensor.data.gas_resistance
@@ -86,7 +86,7 @@ def __init__():
 
 	while True:
 		enviroLightsOn()
-		sleep(1)
+		time.sleep(1)
 
 		temp 		= [enviroTemp(), boschTemp()]
 		pressure 	= [enviroPressure(), boschPressure()]
@@ -98,7 +98,7 @@ def __init__():
 		airQuality = [boschAirQuality()]
 
 		enviroLightsOff()
-		sleep(5)
+		time.sleep(5)
 
 
 
