@@ -101,7 +101,7 @@ def __init__():
 		time.sleep(1)
 		enviroLightsOn()
 
-		airQuality = [await boschAirQuality()]
+		airQuality = [yield from boschAirQuality()]
 		print(airQuality);
 
 		enviroLightsOff()
