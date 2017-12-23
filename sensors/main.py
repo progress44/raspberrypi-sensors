@@ -2,6 +2,7 @@
 
 import sys, signal, asyncio, time, bme680,logging, json
 from daemonize import Daemonize
+from daemon import Daemon
 from envirophat import light, weather, motion, analog, leds
 
 
@@ -190,7 +191,17 @@ def main():
 	asyncio.ensure_future(slowSensors())
 	loop.run_forever()
 
-daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
-daemon.start()
+# daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
+# daemon.start()
+
+class DD(Daemon):
+	def run(self):
+		while True:
+			logging.debug("I'm here...")
+			main()
+
+if __name__ == "__main__":
+	daemon = DD(pid, "sensors")
+	daemon.start()
 
 #main()
