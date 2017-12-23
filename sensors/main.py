@@ -151,8 +151,7 @@ class Sensors:
 	    sys.exit(0)
 
 
-	def __init__:
-
+	def __init__():
 		signal.signal(signal.SIGINT, signal_handler)
 		asyncio.ensure_future(fastSensors())
 		asyncio.ensure_future(slowSensors())

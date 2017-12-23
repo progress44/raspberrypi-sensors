@@ -2,7 +2,7 @@
 
 import sys, os, time, atexit, signal
 
-class daemon:
+class Daemon:
     """A generic daemon class.
     Usage: subclass the daemon class and override the run() method."""
 
@@ -15,6 +15,7 @@ class daemon:
             pid = os.fork() 
             if pid > 0:
                 # exit first parent
+                print("Exiting first parent first fork")
                 sys.exit(0) 
         except OSError as err: 
             sys.stderr.write('fork #1 failed: {0}\n'.format(err))
@@ -29,10 +30,10 @@ class daemon:
         try: 
             pid = os.fork() 
             if pid > 0:
-
+                print("Exiting from parent second fork")
                 # exit from second parent
                 sys.exit(0) 
-        except OSError as err: 
+        except OSError as err:
             sys.stderr.write('fork #2 failed: {0}\n'.format(err))
             sys.exit(1) 
     
