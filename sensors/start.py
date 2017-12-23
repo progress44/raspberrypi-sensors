@@ -15,7 +15,7 @@ logger.addHandler(fh)
 keep_fds = [fh.stream.fileno()]
 
 def main():
-    Sensors(logger)
+    Sensors()
 
 daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds)
 daemon.start()
