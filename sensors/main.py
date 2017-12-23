@@ -201,7 +201,7 @@ class DD(Daemon):
 			main()
 
 if __name__ == "__main__":
-	daemon = DD(pid, "sensors")
+	daemon = DD(pid)
 	daemon.start()
 
 #main()
