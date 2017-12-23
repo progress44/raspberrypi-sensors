@@ -62,7 +62,7 @@ async def boschAirQuality():
 		curr_time = time.time()
 		if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 			gas = boschSensors.data.gas_resistance
-			logger.debug(gas)
+			logger.debug("Gas resistance" + gas)
 			burn_in_data.append(gas)
 			time.sleep(1)
 
@@ -113,7 +113,19 @@ def enviroRGB():
 def enviroMotion():
 	magnet = motion.magnetometer() 
 	accel = motion.accelerometer()
-	return [[magnet[0], magnet[1], magnet[2]], [accel[0], accel[1], accel[2]], motion.heading()]
+	return {
+		"magnet": {
+			"x": magnet[0], 
+			"y": magnet[1], 
+			"z": magnet[2]
+		}, 
+		"accelerometer": {
+			"x": accel[0], 
+			"y": accel[1], 
+			"z": accel[2]
+		}, 
+		"heading": motion.heading()
+	}
 
 def enviroAnalog():
 	return analog.read_all()
@@ -127,14 +139,21 @@ async def fastSensors():
 	enviroLightsOn()
 	time.sleep(1)
 
-	temp 		= [enviroTemp(), boschTemp()]
-	pressure 	= [enviroPressure(), boschPressure()]
-	humidity 	= [boschHumidity()]
-	motion 		= enviroMotion()
-	light 		= [enviroLight(), enviroRGB()]
-	analog 		= [enviroAnalog()]
+	temp 		= {"enviro": enviroTemp(), "bosch": boschTemp()}
+	pressure 	= {"enviro": enviroPressure(), "bosch": boschPressure()}
+	humidity 	= {"bosch": boschHumidity()}
+	motion 		= {"enviro": enviroMotion()}
+	light 		= {"enviro": { "lumen": enviroLight(), "colors": enviroRGB()}}
+	analog 		= {"enviro": enviroAnalog()}
 
-	logger.debug(json.dumps([temp, pressure, humidity, motion, light, analog]))
+	logger.debug(json.dumps({
+		"temp": temp, 
+		"pressure": pressure, 
+		"humidity": humidity, 
+		"motion": motion, 
+		"light": light, 
+		"analog": analog
+	}))
 
 	# make server request
 
@@ -147,7 +166,7 @@ async def slowSensors():
 	time.sleep(1)
 	enviroLightsOff()
 	aq = await boschAirQuality()
-	logger.debug(json.dumps([aq]))
+	logger.debug(json.dumps({"air_quality": {"bosch": aq}}))
 
 	# make server request
 
@@ -164,7 +183,7 @@ def main():
 	asyncio.ensure_future(slowSensors())
 	loop.run_forever()
 
-daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
+daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds)
 daemon.start()
 
 main()
