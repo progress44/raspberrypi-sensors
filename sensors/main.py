@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, signal, asyncio, time, bme680,logging
+import sys, signal, asyncio, time, bme680,logging, json
 from daemonize import Daemonize
 from envirophat import light, weather, motion, analog, leds
 
@@ -121,7 +121,7 @@ def enviroAnalog():
 
 # Group data
 async def fastSensors():
-	time.sleep(30)
+	time.sleep(1)
 	boschSetup()
 
 	enviroLightsOn()
@@ -134,7 +134,7 @@ async def fastSensors():
 	light 		= [enviroLight(), enviroRGB()]
 	analog 		= [enviroAnalog()]
 
-	logger.debug(temp, pressure, humidity, motion, light, analog)
+	logger.debug(json.dumps([temp, pressure, humidity, motion, light, analog]))
 
 	# make server request
 
@@ -147,7 +147,7 @@ async def slowSensors():
 	time.sleep(1)
 	enviroLightsOff()
 	aq = await boschAirQuality()
-	logger.debug([aq])
+	logger.debug(json.dumps([aq]))
 
 	# make server request
 
@@ -158,14 +158,13 @@ def signal_handler(signal, frame):
     loop.stop()
     sys.exit(0)
 
-
 def main():
 	signal.signal(signal.SIGINT, signal_handler)
 	asyncio.ensure_future(fastSensors())
 	asyncio.ensure_future(slowSensors())
 	loop.run_forever()
 
-# daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
-# daemon.start()
+daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
+daemon.start()
 
 main()
