@@ -134,7 +134,7 @@ def enviroAnalog():
 
 # Group data
 async def fastSensors():
-	time.sleep(1)
+	time.sleep(60)
 	boschSetup()
 
 	enviroLightsOn()
