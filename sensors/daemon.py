@@ -60,8 +60,8 @@ class Daemon(object):
         """
         try:
             pid = os.fork()
-            #if pid > 0:
-                #sys.exit(0)
+            if pid > 0:
+                sys.exit(0)
         except OSError as e:
             sys.stderr.write("Fork failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)
