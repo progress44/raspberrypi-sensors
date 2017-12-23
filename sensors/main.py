@@ -6,7 +6,7 @@ from envirophat import light, weather, motion, analog, leds
 
 
 loop = asyncio.get_event_loop()
-pid = "/tmp/test.pid"
+pid = "sensors.pid"
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.propagate = False
@@ -190,7 +190,7 @@ def main():
 	asyncio.ensure_future(slowSensors())
 	loop.run_forever()
 
-daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds)
+daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
 daemon.start()
 
 #main()
