@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, signal, asyncio, time, bme680
+import sys, signal, asyncio, time, bme680,logging
 from envirophat import light, weather, motion, analog, leds
 
 class Sensors:
@@ -54,7 +54,7 @@ class Sensors:
 			curr_time = time.time()
 			if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 				gas = boschSensors.data.gas_resistance
-				print(gas)
+				logger.debug(gas)
 				burn_in_data.append(gas)
 				time.sleep(1)
 
@@ -77,7 +77,7 @@ class Sensors:
 				gas_score = 100 - (hum_weighting * 100)
 
 			air_quality_score = hum_score + gas_score
-			print(air_quality_score)
+			logger.debug(air_quality_score)
 
 		boschSensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
 		return air_quality_score
@@ -126,7 +126,7 @@ class Sensors:
 		light 		= [enviroLight(), enviroRGB()]
 		analog 		= [enviroAnalog()]
 
-		print(temp, pressure, humidity, motion, light, analog)
+		logger.debug(temp, pressure, humidity, motion, light, analog)
 
 		# make server request
 
@@ -139,7 +139,7 @@ class Sensors:
 		time.sleep(1)
 		enviroLightsOff()
 		aq = await boschAirQuality()
-		print([aq])
+		logger.debug([aq])
 
 		# make server request
 
@@ -151,7 +151,8 @@ class Sensors:
 	    sys.exit(0)
 
 
-	def __init__():
+	def __init__(self, logger):
+		self.logger = logger
 		signal.signal(signal.SIGINT, signal_handler)
 		asyncio.ensure_future(fastSensors())
 		asyncio.ensure_future(slowSensors())
