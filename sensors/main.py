@@ -160,11 +160,12 @@ def signal_handler(signal, frame):
 
 
 def main():
-	self.logger = logger
 	signal.signal(signal.SIGINT, signal_handler)
 	asyncio.ensure_future(fastSensors())
 	asyncio.ensure_future(slowSensors())
 	loop.run_forever()
 
-daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds)
-daemon.start()
+# daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
+# daemon.start()
+
+main()
