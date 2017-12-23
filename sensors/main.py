@@ -62,7 +62,7 @@ async def boschAirQuality():
 		curr_time = time.time()
 		if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 			gas = boschSensors.data.gas_resistance
-			logger.debug("Gas resistance" + gas)
+			logger.debug("Gas resistance" + str(gas))
 			burn_in_data.append(gas)
 			time.sleep(1)
 
@@ -186,4 +186,4 @@ def main():
 daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds)
 daemon.start()
 
-main()
+#main()
