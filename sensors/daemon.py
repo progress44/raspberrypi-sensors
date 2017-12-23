@@ -61,7 +61,7 @@ class Daemon(object):
         try:
             pid = os.fork()
             if pid > 0:
-                sys.exit(0)
+                #sys.exit(0)
         except OSError as e:
             sys.stderr.write("Fork failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)
@@ -118,7 +118,7 @@ class Daemon(object):
                 sys.stderr.write(message % self.pidfile)
             return # not an error in a restart
 
-        # Try killing the daemon process    
+        # Try killing the daemon process
         try:
             while True:
                 os.kill(pid, signal.SIGTERM)
