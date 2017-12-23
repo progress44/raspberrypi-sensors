@@ -196,9 +196,7 @@ def main():
 
 class DD(Daemon):
 	def run(self):
-		while True:
-			logging.debug("I'm here...")
-			main()
+		main()
 
 if __name__ == "__main__":
 	daemon = DD(pid)

@@ -15,7 +15,7 @@ class Daemon:
             pid = os.fork() 
             if pid > 0:
                 # exit first parent
-                print("Exiting first parent first fork")
+                print("Exiting from parent first fork")
                 sys.exit(0) 
         except OSError as err: 
             sys.stderr.write('fork #1 failed: {0}\n'.format(err))
@@ -52,6 +52,7 @@ class Daemon:
         atexit.register(self.delpid)
 
         pid = str(os.getpid())
+        print("Daemon pid ", pid)
         with open(self.pidfile,'w+') as f:
             f.write(pid + '\n')
     
@@ -61,11 +62,13 @@ class Daemon:
     def start(self):
         """Start the daemon."""
 
+        print("Checking pidfile", self.pidfile)
         # Check for a pidfile to see if the daemon already runs
         try:
             with open(self.pidfile,'r') as pf:
 
                 pid = int(pf.read().strip())
+                print("pid is ", pid)
         except IOError:
             pid = None
     
