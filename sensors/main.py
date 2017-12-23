@@ -62,7 +62,7 @@ async def boschAirQuality():
 		curr_time = time.time()
 		if boschSensors.get_sensor_data() and boschSensors.data.heat_stable:
 			gas = boschSensors.data.gas_resistance
-			logger.debug("Gas resistance" + str(gas))
+			logger.debug("Gas resistance: " + str(gas))
 			burn_in_data.append(gas)
 			time.sleep(1)
 
@@ -99,10 +99,10 @@ def enviroLightsOff():
 	leds.off()
 
 def enviroTemp():
-	return round(weather.temperature(),2)
+	return round(weather.temperature(),4)
 
 def enviroPressure():
-	return round(weather.pressure(),2)
+	return round(weather.pressure(),4)
 
 def enviroLight():
 	return light.light()
@@ -146,14 +146,17 @@ async def fastSensors():
 	light 		= {"enviro": { "lumen": enviroLight(), "colors": enviroRGB()}}
 	analog 		= {"enviro": enviroAnalog()}
 
-	logger.debug(json.dumps({
+	final 		= {
+		"time": "%.20f" % time.time(),
 		"temp": temp, 
 		"pressure": pressure, 
 		"humidity": humidity, 
 		"motion": motion, 
 		"light": light, 
 		"analog": analog
-	}))
+	}
+
+	logger.debug(json.dumps(final))
 
 	# make server request
 
@@ -166,7 +169,11 @@ async def slowSensors():
 	time.sleep(1)
 	enviroLightsOff()
 	aq = await boschAirQuality()
-	logger.debug(json.dumps({"air_quality": {"bosch": aq}}))
+	final = {
+		"time": "%.20f" % time.time(),
+		"air_quality": {"bosch": aq}
+	}
+	logger.debug(json.dumps(final))
 
 	# make server request
 
