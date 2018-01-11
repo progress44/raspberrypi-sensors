@@ -4,6 +4,7 @@ import sys, signal, asyncio, time, bme680,logging, json
 from daemonize import Daemonize
 from daemon import Daemon
 from envirophat import light, weather, motion, analog, leds
+from requests import post, get
 
 
 loop = asyncio.get_event_loop()
@@ -15,6 +16,8 @@ fh = logging.FileHandler("error.log", "w")
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 keep_fds = [fh.stream.fileno()]
+
+endpoint = "https://sensors.progress44.com/v1"
 
 # BME680
 boschSensors = bme680.BME680()
@@ -160,6 +163,7 @@ async def fastSensors():
 	logger.debug(json.dumps(final))
 
 	# make server request
+	r = requests.post(endpoint, data = final)
 
 	enviroLightsOff()
 	return None
@@ -176,6 +180,7 @@ async def slowSensors():
 	logger.debug(json.dumps(final))
 
 	# make server request
+	r = requests.post(endpoint, data = final)
 
 	return aq
 
