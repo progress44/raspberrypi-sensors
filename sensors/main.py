@@ -162,7 +162,6 @@ async def fastSensors():
 	# make server request
 
 	enviroLightsOff()
-	asyncio.ensure_future(fastSensors())
 	return None
 
 async def slowSensors():
@@ -178,17 +177,21 @@ async def slowSensors():
 
 	# make server request
 
-	asyncio.ensure_future(slowSensors())
 	return aq
 
 def signal_handler(signal, frame):  
     loop.stop()
     sys.exit(0)
 
+async def runner():
+	await fastSensors()
+	await slowSensors()
+
+	return None
+
 def main():
 	signal.signal(signal.SIGINT, signal_handler)
-	asyncio.ensure_future(fastSensors())
-	asyncio.ensure_future(slowSensors())
+	asyncio.ensure_future(runner())
 	loop.run_forever()
 
 # daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
