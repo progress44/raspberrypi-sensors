@@ -12,7 +12,7 @@ pid = "sensors.pid"
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.propagate = False
-fh = logging.FileHandler("error.log", "w")
+fh = logging.FileHandler("/var/log/sensors.log", "w")
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 keep_fds = [fh.stream.fileno()]
