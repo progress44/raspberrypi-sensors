@@ -1,0 +1,17 @@
+{"temp": {"enviro": 21.6656, "bosch": 23.16}, "light": {"enviro": {"colors": [113, 79, 66], "lumen": 413}}, "time": "1515795402.69011688232421875000", "motion": {"enviro": {"magnet": {"x": 751, "y": -973, "z": -2026}, "accelerometer": {"x": -0.011474609375, "y": 0.00982666015625, "z": 1.0150146484375}, "heading": 307.71}}, "humidity": {"bosch": 41.135}, "analog": {"enviro": [0.543, 0.558, 0.558, 0.579]}, "pressure": {"enviro": 101916.1971, "bosch": 1017.39}}
+<Response [200]>
+Gas resistance: 47009.80029183671
+Gas resistance: 59272.90708098451
+Gas resistance: 63672.634355497146
+Gas resistance: 70096.97670544618
+Gas resistance: 77460.32344564056
+Gas resistance: 84550.00400847092
+Gas resistance: 91948.45561081622
+Gas resistance: 96236.90476370319
+Gas resistance: 102829.24576353013
+Gas resistance: 108049.985528725
+Gas resistance: 113368.67238368816
+Gas resistance: 117570.42991135454
+Gas resistance: 122629.96748916253
+Gas resistance: 126696.0539199163
+Gas resistance: 130532.33242919478
