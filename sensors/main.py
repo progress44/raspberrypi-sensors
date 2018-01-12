@@ -16,7 +16,7 @@ fh = logging.FileHandler("error.log", "w")
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 keep_fds = [fh.stream.fileno()]
-burn_time = 1
+burn_time = 30
 
 endpoint = "http://sensors.progress44.com/v1/environment"
 
@@ -164,9 +164,10 @@ async def fastSensors():
 	logger.debug(json.dumps(final))
 
 	# make server request
-	r = post(endpoint, data = final)
+	r = post(endpoint, headers = {
+        	"Content-Type": "application/json; charset=utf-8",
+        }, data = json.dumps(final))
 	logger.debug(r)
-	print(r)
 
 	enviroLightsOff()
 	return None
@@ -183,9 +184,10 @@ async def slowSensors():
 	logger.debug(json.dumps(final))
 
 	# make server request
-	r = post(endpoint, data = final)
+	r = post(endpoint, headers = {
+                "Content-Type": "application/json; charset=utf-8",
+        }, data = json.dumps(final))
 	logger.debug(r)
-	print(r)
 
 	return aq
 
@@ -204,9 +206,6 @@ def main():
 	asyncio.ensure_future(runner())
 	loop.run_forever()
 
-# daemon = Daemonize(app="sensors", pid=pid, action=main, keep_fds=keep_fds, foreground=True)
-# daemon.start()
-
 class DD(Daemon):
 	def run(self):
 		main()
@@ -214,6 +213,5 @@ class DD(Daemon):
 if __name__ == "__main__":
 	daemon = DD(pid)
 	daemon.start()
-	#main()
 
 #main()
