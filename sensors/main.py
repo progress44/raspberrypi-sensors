@@ -16,13 +16,14 @@ fh = logging.FileHandler("error.log", "w")
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 keep_fds = [fh.stream.fileno()]
+burn_time = 1
 
-endpoint = "https://sensors.progress44.com/v1"
+endpoint = "http://sensors.progress44.com/v1/environment"
 
 # BME680
 boschSensors = bme680.BME680()
 
-def boschSetup(): 
+def boschSetup():
 	boschSensors.set_humidity_oversample(bme680.OS_2X)
 	boschSensors.set_pressure_oversample(bme680.OS_4X)
 	boschSensors.set_temperature_oversample(bme680.OS_8X)
@@ -55,7 +56,7 @@ async def boschAirQuality():
 
 	start_time = time.time()
 	curr_time = time.time()
-	burn_in_time = 60
+	burn_in_time = burn_time
 	burn_in_data = []
 
 	boschSensors.set_gas_heater_temperature(320)
@@ -137,7 +138,7 @@ def enviroAnalog():
 
 # Group data
 async def fastSensors():
-	time.sleep(60)
+	time.sleep(burn_time)
 	boschSetup()
 
 	enviroLightsOn()
@@ -152,18 +153,20 @@ async def fastSensors():
 
 	final 		= {
 		"time": "%.20f" % time.time(),
-		"temp": temp, 
-		"pressure": pressure, 
-		"humidity": humidity, 
-		"motion": motion, 
-		"light": light, 
+		"temp": temp,
+		"pressure": pressure,
+		"humidity": humidity,
+		"motion": motion,
+		"light": light,
 		"analog": analog
 	}
 
 	logger.debug(json.dumps(final))
 
 	# make server request
-	r = requests.post(endpoint, data = final)
+	r = post(endpoint, data = final)
+	logger.debug(r)
+	print(r)
 
 	enviroLightsOff()
 	return None
@@ -180,11 +183,13 @@ async def slowSensors():
 	logger.debug(json.dumps(final))
 
 	# make server request
-	r = requests.post(endpoint, data = final)
+	r = post(endpoint, data = final)
+	logger.debug(r)
+	print(r)
 
 	return aq
 
-def signal_handler(signal, frame):  
+def signal_handler(signal, frame):
     loop.stop()
     sys.exit(0)
 
@@ -209,5 +214,6 @@ class DD(Daemon):
 if __name__ == "__main__":
 	daemon = DD(pid)
 	daemon.start()
+	#main()
 
 #main()
