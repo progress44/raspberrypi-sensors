@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo python3 main.py
+python3 /home/pi/code/sensors/main.py

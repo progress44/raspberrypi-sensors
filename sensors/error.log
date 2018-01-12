@@ -15,3 +15,58 @@ Gas resistance: 117570.42991135454
 Gas resistance: 122629.96748916253
 Gas resistance: 126696.0539199163
 Gas resistance: 130532.33242919478
+Gas resistance: 134500.50023192138
+Gas resistance: 137582.33337475598
+Gas resistance: 141519.86069370003
+Gas resistance: 143329.57123558703
+Gas resistance: 146069.13652732276
+Gas resistance: 148128.25392580422
+Gas resistance: 150650.14227844955
+Gas resistance: 152149.82201675684
+Gas resistance: 154527.15523995107
+Gas resistance: 156687.3601742693
+Gas resistance: 158012.71899195274
+Gas resistance: 159360.69056736922
+Gas resistance: 160885.66851207003
+Gas resistance: 162597.2129084578
+Gas resistance: 163546.22098862528
+Gas resistance: 164667.49432960365
+99.83208333333334
+{"time": "1515795435.80002784729003906250", "air_quality": {"bosch": 99.83208333333334}}
+<Response [200]>
+{"temp": {"enviro": 21.7981, "bosch": 23.47}, "light": {"enviro": {"colors": [113, 79, 66], "lumen": 413}}, "time": "1515795467.42540979385375976562", "motion": {"enviro": {"magnet": {"x": 729, "y": -952, "z": -1980}, "accelerometer": {"x": -0.00970458984375, "y": 0.010498046875, "z": 1.00286865234375}, "heading": 307.57}}, "humidity": {"bosch": 41.249}, "analog": {"enviro": [0.546, 0.567, 0.552, 0.573]}, "pressure": {"enviro": 101916.7391, "bosch": 1017.42}}
+<Response [200]>
+Gas resistance: 80118.01250629117
+Gas resistance: 98839.41781399875
+Gas resistance: 103973.9071479926
+Gas resistance: 112083.8330705329
+Gas resistance: 121128.02152867873
+Gas resistance: 128046.95856279915
+Gas resistance: 135257.94192519473
+Gas resistance: 141400.8368380852
+Gas resistance: 146323.3900354288
+Gas resistance: 150380.64380547876
+Gas resistance: 153119.80861395076
+Gas resistance: 157420.9129114019
+Gas resistance: 160119.54863974577
+Gas resistance: 162597.2129084578
+Gas resistance: 164667.49432960365
+Gas resistance: 167289.05849803894
+Gas resistance: 168631.39401353456
+Gas resistance: 170339.91376254696
+Gas resistance: 172436.39892062923
+Gas resistance: 172968.6085019087
+Gas resistance: 174223.29948408846
+Gas resistance: 174404.02853491783
+Gas resistance: 175496.32624320989
+Gas resistance: 176417.08086998347
+Gas resistance: 177160.67027585543
+Gas resistance: 178099.01866570226
+Gas resistance: 177910.55461869997
+Gas resistance: 180005.8551162901
+Gas resistance: 181757.2586292579
+Gas resistance: 182546.64740081845
+Gas resistance: 182745.06713283595
+99.78625
+{"time": "1515795500.33644938468933105469", "air_quality": {"bosch": 99.78625}}
+<Response [200]>
