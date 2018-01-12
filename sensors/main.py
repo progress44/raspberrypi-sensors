@@ -198,6 +198,7 @@ def signal_handler(signal, frame):
 async def runner():
 	await fastSensors()
 	await slowSensors()
+	asyncio.ensure_future(runner())
 
 	return None
 
