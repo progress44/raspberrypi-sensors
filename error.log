@@ -1,0 +1,4 @@
+{"pressure": {"enviro": 101903.672, "bosch": 1017.26}, "motion": {"enviro": {"accelerometer": {"y": 0.0079345703125, "x": -0.0115966796875, "z": 1.00579833984375}, "magnet": {"y": -956, "x": 793, "z": -2005}, "heading": 306.03}}, "temp": {"enviro": 22.0205, "bosch": 23.37}, "light": {"enviro": {"lumen": 413, "colors": [113, 79, 66]}}, "analog": {"enviro": [0.534, 0.57, 0.555, 0.564]}, "time": "1515799406.50191140174865722656", "humidity": {"bosch": 41.009}}
+<Response [200]>
+Gas resistance: 11873.734398581888
+Gas resistance: 14717.3242102727

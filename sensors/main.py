@@ -8,11 +8,11 @@ from requests import post, get
 
 
 loop = asyncio.get_event_loop()
-pid = "sensors.pid"
+pid = "/tmp/sensors.pid"
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.propagate = False
-fh = logging.FileHandler("/var/log/sensors.log", "w")
+fh = logging.FileHandler("/tmp/sensors.log", "w")
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 keep_fds = [fh.stream.fileno()]
