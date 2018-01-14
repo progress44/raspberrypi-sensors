@@ -15,13 +15,13 @@ cp -vrf ./conf/.zshrc ~/.zshrc
 
 
 ## Installing nodejs
-sudo curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+# sudo curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 
 ## Installing Docker
-sudo curl -sSL https://get.docker.com | sh
+# sudo curl -sSL https://get.docker.com | sh
 
 
 ## Installing other software
-sudo apt-get install ovpn hostapd dnsmasq python3-pip python3-smbus nodejs -y 
+sudo apt-get install ovpn hostapd dnsmasq python3-pip python3-smbus nodejs -y
 
-pip install bme680 envirophat requests
+pip3 install bme680 envirophat requests
