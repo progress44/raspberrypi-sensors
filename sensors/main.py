@@ -23,7 +23,7 @@ async def runner():
     if (process <= 1):
         await Mapping().trackFast()
     
-    if (process == 0 || process == 2):
+    if (process == 0 or process == 2):
         await Mapping().trackSlow()
 
     asyncio.ensure_future(runner())
