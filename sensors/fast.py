@@ -6,9 +6,8 @@ from track import Track
 from log import Log
 from config import Config
 
-cfg = None
-logger = None
-pid = None
+cfg = Config().get()
+logger = Log(cfg["main"]["log_file"]).get()
 loop = asyncio.get_event_loop()
 
 def signal_handler(signal, frame):
@@ -25,12 +24,8 @@ async def runner():
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    
-    cfg = Config().get()
-    logger = Log(cfg["main"]["log_file"]).get()
 
     # opts = getopt.getopt(argv, ["hfs"])
-
     # print(opts)
     
     asyncio.ensure_future(runner())
