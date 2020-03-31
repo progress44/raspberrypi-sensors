@@ -1,6 +1,8 @@
 import time, logging
 from yaml import load
 from envirophat import light, weather, motion, analog, leds
+from log import Log
+from config import Config
 
 class Enviro(object):
 	logger = None
@@ -10,27 +12,9 @@ class Enviro(object):
 
 	def __init__(self):
 		# BME680
-		self.config()
-		self.logger()
+		self.cfg = Config().get()
+		self.logger = Log(self.cfg["enviro"]["log_file"]).get()
 		self.precision = self.cfg["enviro"]["precision"]
-
-	def config(self):
-		try:
-			from yaml import CLoader as Loader
-		except ImportError:
-			from yaml import Loader
-
-		with open("config.yml", "r") as ymlfile:
-			self.cfg = load(ymlfile, Loader=Loader)
-
-	def logger(self):
-		self.logger = logging.getLogger(__name__)
-		self.logger.setLevel(logging.DEBUG)
-		self.logger.propagate = False
-		fh = logging.FileHandler(self.cfg["enviro"]["log_file"], "w")
-		fh.setLevel(logging.DEBUG)
-		self.logger.addHandler(fh)
-		self.keep_fds = [fh.stream.fileno()]
 
 	# EnviroPHAT
 	def lightsOn(self):
