@@ -10,7 +10,7 @@ class Track(object):
     
     def __init__(self):
         self.cfg = Config().get()
-        self.logger = Log(self.cfg["enviro"]["log_file"]).get()
+        self.logger = Log(self.cfg["tracker"]["log_file"]).get()
         self.endpoint = self.cfg["tracker"]["endpoint"]
 
     async def event(self, data):
