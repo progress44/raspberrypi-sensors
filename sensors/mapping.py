@@ -2,27 +2,17 @@ import time, bme680
 from yaml import load
 from enviro import Enviro
 from bosch import Bosch
+from config import Config
+from track import Track
 
 class Mapping(object):
-	cfg = None
-	bosch = None
 	
 	def __init__(self):
 		# BME680
-		self.config()
+		self.cfg = Config().get()
 		self.bosch = Bosch()
 		self.enviro = Enviro()
-
-		
-	def config(self):
-		try:
-			from yaml import CLoader as Loader
-		except ImportError:
-			from yaml import Loader
-
-		with open("config.yml", "r") as ymlfile:
-			self.cfg = load(ymlfile, Loader=Loader)
-
+		self.track = Track()
 
 	async def fastSensors(self):
 		self.enviro.lightsOn()
@@ -61,3 +51,14 @@ class Mapping(object):
 		}
 		
 		return final
+
+	async def trackFast(self):
+		final = await self.fastSensors()
+		# make server request
+		await self.track.event(final)
+
+	async def trackSlow(self):
+		final = await self.slowSensors()
+		# make server request
+		await self.track.event(final)
+
