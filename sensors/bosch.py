@@ -1,6 +1,8 @@
 
 import time, bme680, logging
 from yaml import load
+from log import Log
+from config import Config
 
 class Bosch(object):
 	sensors = None
@@ -9,44 +11,25 @@ class Bosch(object):
 	burn_time = None
 	keep_fds = None
 
-	def config(self):
-		try:
-			from yaml import CLoader as Loader
-		except ImportError:
-			from yaml import Loader
-
-		with open("config.yml", "r") as ymlfile:
-			self.cfg = load(ymlfile, Loader=Loader)
-
-		pid = self.cfg["main"]["pid"]
-
-	def logger(self):
-		self.logger = logging.getLogger(__name__)
-		self.logger.setLevel(logging.DEBUG)
-		self.logger.propagate = False
-		fh = logging.FileHandler(self.cfg["bosch"]["log_file"], "w")
-		fh.setLevel(logging.DEBUG)
-		self.logger.addHandler(fh)
-		self.keep_fds = [fh.stream.fileno()]
+	def __init__(self):
+		# BME680
+		self.cfg = Config().get()
+		self.logger = Log(self.cfg["bosch"]["log_file"]).get()
 		self.burn_time = self.cfg["bosch"]["burn_time"]
+		
+		self.sensors = bme680.BME680()
+		self.setup()
 
 	def setup(self):
 		self.sensors.set_humidity_oversample(bme680.OS_2X)
 		self.sensors.set_pressure_oversample(bme680.OS_4X)
 		self.sensors.set_temperature_oversample(bme680.OS_8X)
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
-		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
+		self.sensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
 
-		self.sensors.set_gas_heater_temperature(self.cfg["bosch"]["heater_temp"])
-		self.sensors.set_gas_heater_duration(self.cfg["bosch"]["heater_duration"])
-		self.sensors.select_gas_heater_profile(self.cfg["bosch"]["heater_profile"])
-
-	def __init__(self):
-		# BME680
-		self.config()
-		self.logger()
-		self.sensors = bme680.BME680()
-		self.setup()
+		# self.sensors.set_gas_heater_temperature(self.cfg["bosch"]["heater_temp"])
+		# self.sensors.set_gas_heater_duration(self.cfg["bosch"]["heater_duration"])
+		# self.sensors.select_gas_heater_profile(self.cfg["bosch"]["heater_profile"])
 
 	def temp(self):
 		if self.sensors.get_sensor_data():
