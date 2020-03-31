@@ -40,7 +40,7 @@ def logger():
     keep_fds = [fh.stream.fileno()]
 
 async def trackFast():
-    final = Mapping.fastSensors()
+    final = await Mapping.fastSensors()
     logger.debug(json.dumps(final))
 
     # make server request
@@ -62,7 +62,7 @@ async def runner():
 
 def main():
     global bosch
-    
+
     signal.signal(signal.SIGINT, signal_handler)
     
     bosch = Bosch()
