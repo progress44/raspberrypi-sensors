@@ -1,13 +1,17 @@
 import time, bme680
 from yaml import load
-from envirophat import light, weather, motion, analog, leds
+from enviro import Enviro
+from bosch import Bosch
 
 class Mapping(object):
-	cfg = ""
+	cfg = None
+	bosch = None
 	
 	def __init__(self):
 		# BME680
 		self.config()
+		self.bosch = Bosch()
+
 		
 	def config(self):
 		try:
@@ -24,9 +28,9 @@ class Mapping(object):
 		time.sleep(0.1)
 		Enviro.lightsOff()
 
-		temp 		= {"enviro": Enviro.temp(), "bosch": bosch.temp()}
-		pressure 	= {"enviro": Enviro.pressure(), "bosch": bosch.pressure()}
-		humidity 	= {"bosch": bosch.humidity()}
+		temp 		= {"enviro": Enviro.temp(), "bosch": self.bosch.temp()}
+		pressure 	= {"enviro": Enviro.pressure(), "bosch": self.bosch.pressure()}
+		humidity 	= {"bosch": self.bosch.humidity()}
 		motion 		= {"enviro": Enviro.motion()}
 		light 		= {"enviro": { "lumen": Enviro.light(), "colors": Enviro.RGB()}}
 		analog 		= {"enviro": Enviro.analog()}
@@ -48,7 +52,7 @@ class Mapping(object):
 		time.sleep(0.1)
 		Enviro.lightsOff()
 
-		aq = await bosch.airQuality()
+		aq = await self.bosch.airQuality()
 
 		final = {
 			"time": "%.20f" % time.time(),
