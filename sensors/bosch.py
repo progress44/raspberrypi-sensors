@@ -89,6 +89,9 @@ class Bosch(object):
 
 			air_quality_score = hum_score + gas_score
 			self.logger.debug(air_quality_score)
+		else:
+			self.logger.debug("Bosch heat unstable: " + self.sensors.data.heat_stable)
+			self.logger.debug("Bosch sensor data: " + self.sensors.get_sensor_data())
 
 		self.sensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
 		return air_quality_score
