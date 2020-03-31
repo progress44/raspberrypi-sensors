@@ -1,7 +1,7 @@
 import yaml
 
 class Config(object):
-    cfg = None
+	cfg = None
 
 	def __init__(self, file = "config.yml"):
 		self.config(file)
