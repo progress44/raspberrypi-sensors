@@ -23,7 +23,7 @@ class Mapping(object):
 			self.cfg = load(ymlfile, Loader=Loader)
 
 
-	async def fastSensors():
+	async def fastSensors(self):
 		Enviro.lightsOn()
 		time.sleep(0.1)
 		Enviro.lightsOff()
@@ -47,7 +47,7 @@ class Mapping(object):
 
 		return final
 
-	async def slowSensors():
+	async def slowSensors(self):
 		Enviro.lightsOn()
 		time.sleep(0.1)
 		Enviro.lightsOff()
