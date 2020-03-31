@@ -1,26 +1,36 @@
-#!/usr/bin/env python
-
-import sys, signal, asyncio, time,logging, json
+import time, logging
+from yaml import load
 from envirophat import light, weather, motion, analog, leds
-from yaml import load, dump
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
-
-with open("config.yml", "r") as ymlfile:
-    cfg = load(ymlfile, Loader=Loader)
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logger.propagate = False
-fh = logging.FileHandler(cfg["enviro"]["log_file"], "w")
-fh.setLevel(logging.DEBUG)
-logger.addHandler(fh)
-keep_fds = [fh.stream.fileno()]
-precision = cfg["enviro"]["precision"]
 
 class Enviro(object):
+	logger = ""
+	cfg = ""
+	keep_fds = ""
+    precision = ""
+    
+    def __init__(self):
+		# BME680
+		self.confg()
+		self.logger()
+        self.precision = cfg["enviro"]["precision"]
+		
+    def config(self):
+		try:
+			from yaml import CLoader as Loader
+		except ImportError:
+			from yaml import Loader
+
+		with open("config.yml", "r") as ymlfile:
+			self.cfg = load(ymlfile, Loader=Loader)
+
+	def logger(self):
+		self.logger = logging.getLogger(__name__)
+		self.logger.setLevel(logging.DEBUG)
+		self.logger.propagate = False
+		fh = logging.FileHandler(self.cfg["enviro"]["log_file"], "w")
+		fh.setLevel(logging.DEBUG)
+		self.logger.addHandler(fh)
+		self.keep_fds = [fh.stream.fileno()]
 
     # EnviroPHAT
     def lightsOn():
@@ -31,27 +41,27 @@ class Enviro(object):
 
     def temp():
         try:
-            return round(weather.temperature(), precision)
+            return round(weather.temperature(), self.precision)
         except:
-            logger.debug('Could not get temperature')
+            self.logger.debug('Could not get temperature')
 
     def pressure():
         try:
-            return round(weather.pressure(), precision)
+            return round(weather.pressure(), self.precision)
         except:
-            logger.debug('Could not get pressure')
+            self.logger.debug('Could not get pressure')
 
     def light():
         try:
             return light.light()
         except:
-            logger.debug('Could not get data from light sensor')
+            self.logger.debug('Could not get data from light sensor')
 
-    def rGB():
+    def RGB():
         try:
             return light.rgb()
         except:
-            logger.debug('Could not get data from light rgb sensor')
+            self.logger.debug('Could not get data from light rgb sensor')
 
     def magnet():
         try:
@@ -62,9 +72,9 @@ class Enviro(object):
                 "z": magnet[2]
             }
         except:
-            logger.debug('Could not get data from magnetometer')
+            self.logger.debug('Could not get data from magnetometer')
 
-    def envirpAccel():
+    def accel():
         try:
             accel = motion.accelerometer()
             return {
@@ -73,20 +83,20 @@ class Enviro(object):
                 "z": accel[2]
             }
         except:
-            logger.debug('Could not get data from accelerometer')
+            self.logger.debug('Could not get data from accelerometer')
 
     def motion():
         try:
             return {
-                "magnet": enviroMagnet(), 
-                "accelerometer": enviroAccel(), 
+                "magnet": self.magnet(), 
+                "accelerometer": self.accel(), 
                 "heading": motion.heading()
             }
         except:
-            logger.debug('Could not get data from motion sensors')
+            self.logger.debug('Could not get data from motion sensors')
 
     def analog():
         try:
             return analog.read_all()
         except:
-            logger.debug('Could not get analog data')
+            self.logger.debug('Could not get analog data')
