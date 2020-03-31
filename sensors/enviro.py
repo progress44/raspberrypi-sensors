@@ -33,10 +33,10 @@ class Enviro(object):
 		self.keep_fds = [fh.stream.fileno()]
 
 	# EnviroPHAT
-	def lightsOn():
+	def lightsOn(self):
 		leds.on()
 
-	def lightsOff():
+	def lightsOff(self):
 		leds.off()
 
 	def temp(self):
