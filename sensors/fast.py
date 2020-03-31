@@ -16,10 +16,15 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 async def runner():
+    global process
+    
     time.sleep(cfg["main"]["interval"])
-
-    await Mapping().trackFast()
-    await Mapping().trackSlow()
+    
+    if (process <= 1):
+        await Mapping().trackFast()
+    
+    if (process == 0 || process == 2):
+        await Mapping().trackSlow()
 
     asyncio.ensure_future(runner())
 
@@ -45,11 +50,9 @@ def main():
         else:
             assert False, "unhandled option"
 
-    print(process)
-
-    # signal.signal(signal.SIGINT, signal_handler)
-    # asyncio.ensure_future(runner())
-    # loop.run_forever()
+    signal.signal(signal.SIGINT, signal_handler)
+    asyncio.ensure_future(runner())
+    loop.run_forever()
 
 if __name__ == "__main__":
     main()
