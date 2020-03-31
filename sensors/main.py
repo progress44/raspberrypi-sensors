@@ -30,7 +30,7 @@ bosch = Bosch()
 # Group data
 async def fastSensors():
 	Enviro.lightsOn()
-	time.sleep(1)
+	time.sleep(0.1)
 	Enviro.lightsOff()
 
 	temp 		= {"enviro": Enviro.temp(), "bosch": bosch.temp()}
@@ -62,7 +62,7 @@ async def fastSensors():
 
 async def slowSensors():
 	Enviro.lightsOn()
-	time.sleep(1)
+	time.sleep(0.1)
 	Enviro.lightsOff()
 
 	aq = await bosch.airQuality()
@@ -86,7 +86,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 async def runner():
-	time.sleep(1)
+	time.sleep(cfg["main"]["interval"])
 	await fastSensors()
 	#await slowSensors()
 	asyncio.ensure_future(runner())
