@@ -7,7 +7,7 @@ Type=simple
 # Another Type: forking
 User=root
 WorkingDirectory=/root
-ExecStart=/usr/bin/python3 /root/raspberry-pi/sensors/fast.py -f
+ExecStart=/usr/bin/python3 /root/raspberry-pi/sensors/main.py -f
 Restart=always
 # Other restart options: always, on-abort, etc
 
