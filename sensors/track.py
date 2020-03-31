@@ -8,7 +8,7 @@ class Track(object):
     endpoint = ""
     keep_fds = ""
 
-    def config():
+    def config(self):
         try:
             from yaml import CLoader as Loader
         except ImportError:
@@ -17,7 +17,7 @@ class Track(object):
         with open("config.yml", "r") as ymlfile:
             self.cfg = load(ymlfile, Loader=Loader)
         
-    def logger():
+    def logger(self):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
         self.logger.propagate = False
@@ -26,12 +26,12 @@ class Track(object):
         self.logger.addHandler(fh)
         self.keep_fds = [fh.stream.fileno()]
 
-    def __init__:
+    def __init__(self):
         self.confg()
         self.logger()
         self.endpoint = cfg["tracker"]["endpoint"]
 
-    async def event(data):
+    async def event(self, data):
         # Group data
         config()
         logger()

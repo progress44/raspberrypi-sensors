@@ -39,31 +39,31 @@ class Enviro(object):
 	def lightsOff():
 		leds.off()
 
-	def temp():
+	def temp(self):
 		try:
 			return round(weather.temperature(), self.precision)
 		except:
 			self.logger.debug('Could not get temperature')
 
-	def pressure():
+	def pressure(self):
 		try:
 			return round(weather.pressure(), self.precision)
 		except:
 			self.logger.debug('Could not get pressure')
 
-	def light():
+	def light(self):
 		try:
 			return light.light()
 		except:
 			self.logger.debug('Could not get data from light sensor')
 
-	def RGB():
+	def RGB(self):
 		try:
 			return light.rgb()
 		except:
 			self.logger.debug('Could not get data from light rgb sensor')
 
-	def magnet():
+	def magnet(self):
 		try:
 			magnet = motion.magnetometer()
 			return {
@@ -74,7 +74,7 @@ class Enviro(object):
 		except:
 			self.logger.debug('Could not get data from magnetometer')
 
-	def accel():
+	def accel(self):
 		try:
 			accel = motion.accelerometer()
 			return {
@@ -85,7 +85,7 @@ class Enviro(object):
 		except:
 			self.logger.debug('Could not get data from accelerometer')
 
-	def motion():
+	def motion(self):
 		try:
 			return {
 				"magnet": self.magnet(),
@@ -95,7 +95,7 @@ class Enviro(object):
 		except:
 			self.logger.debug('Could not get data from motion sensors')
 
-	def analog():
+	def analog(self):
 		try:
 			return analog.read_all()
 		except:
