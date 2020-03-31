@@ -44,7 +44,7 @@ async def trackFast():
     logger.debug(json.dumps(final))
 
     # make server request
-    r = Track().event(final)
+    r = await Track().event(final)
 
 
 
