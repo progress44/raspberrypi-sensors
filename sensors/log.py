@@ -3,7 +3,7 @@ import logging
 class Log(object):
 
 	def __init__(self, file):
-		dir_path = os.path.dirname(os.path.realpath(__file__))
+		dir_path = os.path.dirname(os.path.realpath(__file__)) +"/"
 		self.logger_setup(dir_path + file)
 
 	def logger_setup(self, file):

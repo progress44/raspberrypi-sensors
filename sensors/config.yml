@@ -1,19 +1,19 @@
 bosch:
-  log_file: /storage/sensors-bosch.log
+  log_file: storage/sensors-bosch.log
   burn_time: 30
   heater_temp: 320
   heater_duration: 150
   heater_profile: 0
   
 enviro:
-  log_file: /storage/sensors-enviro.log
+  log_file: storage/sensors-enviro.log
   precision: 4
 
 main: 
   interval: 5
-  log_file: /storage/sensors.log
-  pid: /storage/sensors.pid
+  log_file: storage/sensors.log
+  pid: storage/sensors.pid
   
 tracker:
-  log_file: /storage/sensors-tracker.log
+  log_file: storage/sensors-tracker.log
   endpoint: "https://sensors.progress44.com/v1/environment"
