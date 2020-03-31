@@ -24,7 +24,7 @@ def config():
 
     pid = cfg["main"]["pid"]
 
-def logger():
+def logger_setup():
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
     logger.propagate = False
@@ -47,7 +47,6 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 async def runner():
-    print()
     time.sleep(cfg["main"]["interval"])
 
     await trackFast()
@@ -60,7 +59,7 @@ def main():
     
     bosch = Bosch()
     config()
-    logger()
+    logger_setup()
     
     asyncio.ensure_future(runner())
     loop.run_forever()
