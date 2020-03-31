@@ -4,7 +4,6 @@ class Log(object):
 
 	def __init__(self, file):
 		self.logger_setup(file)
-		return self
 
 	def logger_setup(self, file):
 		self.logger = logging.getLogger(__name__)
