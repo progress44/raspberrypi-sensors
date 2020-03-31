@@ -1,6 +1,7 @@
 import logging, json
 from requests import post
 from yaml import load
+from log import Log
 
 class Track(object):
     cfg = None
@@ -16,26 +17,13 @@ class Track(object):
 
         with open("config.yml", "r") as ymlfile:
             self.cfg = load(ymlfile, Loader=Loader)
-        
-    def logger(self):
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.DEBUG)
-        self.logger.propagate = False
-        fh = logging.FileHandler(self.cfg["tracker"]["log_file"], "w")
-        fh.setLevel(logging.DEBUG)
-        self.logger.addHandler(fh)
-        self.keep_fds = [fh.stream.fileno()]
 
     def __init__(self):
         self.config()
-        self.logger()
+        self.logger = Log(self.cfg["enviro"]["log_file"]).get()
         self.endpoint = self.cfg["tracker"]["endpoint"]
 
     async def event(self, data):
-        # Group data
-        self.config()
-        self.logger()
-
         try:
             # make server request
             r = post(self.endpoint, headers = {
