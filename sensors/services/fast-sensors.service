@@ -6,7 +6,7 @@ Description=Service to handle sensors that are fast
 Type=simple
 # Another Type: forking
 User=root
-WorkingDirectory=/home/nanodano
+WorkingDirectory=/root
 ExecStart=/usr/bin/python3 /root/raspberry-pi/sensors/fast.py
 Restart=always
 # Other restart options: always, on-abort, etc

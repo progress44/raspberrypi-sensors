@@ -6,7 +6,7 @@ Description=Service to handle sensors that are slow at computing
 Type=simple
 # Another Type: forking
 User=root
-WorkingDirectory=/home/nanodano
+WorkingDirectory=/root
 ExecStart=/usr/bin/python3 /root/raspberry-pi/sensors/slow.py
 Restart=always
 # Other restart options: always, on-abort, etc
