@@ -11,6 +11,7 @@ class Mapping(object):
 		# BME680
 		self.config()
 		self.bosch = Bosch()
+		self.enviro = Enviro()
 
 		
 	def config(self):
@@ -24,16 +25,16 @@ class Mapping(object):
 
 
 	async def fastSensors(self):
-		Enviro.lightsOn()
+		self.enviro.lightsOn()
 		time.sleep(0.1)
-		Enviro.lightsOff()
+		self.enviro.lightsOff()
 
-		temp 		= {"enviro": Enviro.temp(), "bosch": self.bosch.temp()}
-		pressure 	= {"enviro": Enviro.pressure(), "bosch": self.bosch.pressure()}
+		temp 		= {"enviro": self.enviro.temp(), "bosch": self.bosch.temp()}
+		pressure 	= {"enviro": self.enviro.pressure(), "bosch": self.bosch.pressure()}
 		humidity 	= {"bosch": self.bosch.humidity()}
-		motion 		= {"enviro": Enviro.motion()}
-		light 		= {"enviro": { "lumen": Enviro.light(), "colors": Enviro.RGB()}}
-		analog 		= {"enviro": Enviro.analog()}
+		motion 		= {"enviro": self.enviro.motion()}
+		light 		= {"enviro": { "lumen": self.enviro.light(), "colors": self.enviro.RGB()}}
+		analog 		= {"enviro": self.enviro.analog()}
 
 		final 		= {
 			"time": "%.20f" % time.time(),
@@ -48,9 +49,9 @@ class Mapping(object):
 		return final
 
 	async def slowSensors(self):
-		Enviro.lightsOn()
+		self.enviro.lightsOn()
 		time.sleep(0.1)
-		Enviro.lightsOff()
+		self.enviro.lightsOff()
 
 		aq = await self.bosch.airQuality()
 
