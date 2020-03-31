@@ -1,4 +1,4 @@
-import logging
+import logging, os
 
 class Log(object):
 
