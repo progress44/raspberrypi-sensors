@@ -7,13 +7,16 @@ from enviro import Enviro
 from mapping import Mapping
 from track import Track
 
-cfg = ""
-logger = ""
-pid = ""
-bosch = ""
+cfg = None
+logger = None
+pid = None
+bosch = None
 loop = asyncio.get_event_loop()
 
 def config():
+    global cfg
+    global pid
+
     try:
         from yaml import CLoader as Loader
     except ImportError:
@@ -21,10 +24,13 @@ def config():
 
     with open("config.yml", "r") as ymlfile:
         cfg = load(ymlfile, Loader=Loader)
-
+    
     pid = cfg["main"]["pid"]
 
-def logger_setup():
+def logger():
+    global logger
+    global keep_fds
+
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
     logger.propagate = False
@@ -55,11 +61,13 @@ async def runner():
     return None
 
 def main():
+    global bosch
+    
     signal.signal(signal.SIGINT, signal_handler)
     
     bosch = Bosch()
     config()
-    logger_setup()
+    logger()
     
     asyncio.ensure_future(runner())
     loop.run_forever()
