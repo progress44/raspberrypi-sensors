@@ -29,16 +29,16 @@ bosch = Bosch()
 
 # Group data
 async def fastSensors():
-	enviro.lightsOn()
+	Enviro.lightsOn()
 	time.sleep(1)
-	enviro.lightsOff()
+	Enviro.lightsOff()
 
-	temp 		= {"enviro": enviro.temp(), "bosch": bosch.temp()}
-	pressure 	= {"enviro": enviro.pressure(), "bosch": bosch.pressure()}
+	temp 		= {"enviro": Enviro.temp(), "bosch": bosch.temp()}
+	pressure 	= {"enviro": Enviro.pressure(), "bosch": bosch.pressure()}
 	humidity 	= {"bosch": bosch.humidity()}
-	motion 		= {"enviro": enviro.motion()}
-	light 		= {"enviro": { "lumen": enviro.light(), "colors": enviro.rGB()}}
-	analog 		= {"enviro": enviro.analog()}
+	motion 		= {"enviro": Enviro.motion()}
+	light 		= {"enviro": { "lumen": Enviro.light(), "colors": Enviro.rGB()}}
+	analog 		= {"enviro": Enviro.analog()}
 
 	final 		= {
 		"time": "%.20f" % time.time(),
@@ -61,9 +61,9 @@ async def fastSensors():
 	return None
 
 async def slowSensors():
-	enviro.lightsOn()
+	Enviro.lightsOn()
 	time.sleep(1)
-	enviro.lightsOff()
+	Enviro.lightsOff()
 
 	aq = await bosch.airQuality()
 
