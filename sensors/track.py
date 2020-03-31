@@ -16,9 +16,12 @@ class Track(object):
     async def event(self, data):
         try:
             # make server request
+            self.logger.debug(json.dumps(data))
+
             r = post(self.endpoint, headers = {
                     "Content-Type": "application/json; charset=utf-8",
                 }, data = json.dumps(data))
+            
             self.logger.debug(r)
             return r
         except:
