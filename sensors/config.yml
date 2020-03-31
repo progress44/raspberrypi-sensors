@@ -10,6 +10,10 @@ enviro:
   precision: 4
 
 main: 
+  interval: 5
   log_file: /tmp/sensors.log
   pid: /tmp/sensors.pid
+  
+tracker:
+  log_file: /tmp/sensors-tracker.log
   endpoint: "https://sensors.progress44.com/v1/environment"
