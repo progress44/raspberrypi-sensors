@@ -40,12 +40,11 @@ def logger():
     keep_fds = [fh.stream.fileno()]
 
 async def trackFast():
-    fm = Mapping()
-    final = await fm.fastSensors()
+    final = await Mapping().fastSensors()
     logger.debug(json.dumps(final))
 
     # make server request
-    r = Track.event(final)
+    r = Track().event(final)
 
 
 

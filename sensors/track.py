@@ -21,7 +21,7 @@ class Track(object):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
         self.logger.propagate = False
-        fh = logging.FileHandler(cfg["tracker"]["log_file"], "w")
+        fh = logging.FileHandler(self.cfg["tracker"]["log_file"], "w")
         fh.setLevel(logging.DEBUG)
         self.logger.addHandler(fh)
         self.keep_fds = [fh.stream.fileno()]
@@ -29,7 +29,7 @@ class Track(object):
     def __init__(self):
         self.config()
         self.logger()
-        self.endpoint = cfg["tracker"]["endpoint"]
+        self.endpoint = self.cfg["tracker"]["endpoint"]
 
     async def event(self, data):
         # Group data
