@@ -47,9 +47,10 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 async def runner():
+    print()
     time.sleep(cfg["main"]["interval"])
 
-    await fastSensors()
+    await trackFast()
     asyncio.ensure_future(runner())
 
     return None
@@ -58,6 +59,8 @@ def main():
     signal.signal(signal.SIGINT, signal_handler)
     
     bosch = Bosch()
+    config()
+    logger()
     
     asyncio.ensure_future(runner())
     loop.run_forever()
