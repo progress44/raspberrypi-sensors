@@ -33,12 +33,12 @@ class Track(object):
 
     async def event(self, data):
         # Group data
-        config()
-        logger()
+        self.config()
+        self.logger()
 
         try:
             # make server request
-            r = post(endpoint, headers = {
+            r = post(self.endpoint, headers = {
                     "Content-Type": "application/json; charset=utf-8",
                 }, data = json.dumps(data))
             self.logger.debug(r)
