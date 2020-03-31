@@ -1,15 +1,12 @@
 import time, bme680
-from yaml import load
 from enviro import Enviro
 from bosch import Bosch
-from config import Config
 from track import Track
 
 class Mapping(object):
 	
 	def __init__(self):
 		# BME680
-		self.cfg = Config().get()
 		self.bosch = Bosch()
 		self.enviro = Enviro()
 		self.track = Track()

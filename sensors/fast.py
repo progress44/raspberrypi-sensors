@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import sys, signal, asyncio, time, logging, json, track, getopt
-from yaml import load
+import sys, signal, asyncio, time, getopt
 from mapping import Mapping
 from track import Track
 from log import Log

@@ -1,5 +1,4 @@
-import time, logging
-from yaml import load
+import time
 from envirophat import light, weather, motion, analog, leds
 from log import Log
 from config import Config

@@ -1,6 +1,5 @@
 
-import time, bme680, logging
-from yaml import load
+import time, bme680
 from log import Log
 from config import Config
 

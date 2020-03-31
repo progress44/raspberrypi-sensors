@@ -1,4 +1,4 @@
-import yaml
+from yaml import load
 
 class Config(object):
 	cfg = None
