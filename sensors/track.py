@@ -3,10 +3,10 @@ from requests import post
 from yaml import load
 
 class Track(object):
-    cfg = ""
-    logger = ""
-    endpoint = ""
-    keep_fds = ""
+    cfg = None
+    logger = None
+    endpoint = None
+    keep_fds = None
 
     def config(self):
         try:

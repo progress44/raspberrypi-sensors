@@ -3,11 +3,11 @@ import time, bme680, logging
 from yaml import load
 
 class Bosch(object):
-	sensors = ""
-	logger = ""
-	cfg = ""
-	burn_time = ""
-	keep_fds = ""
+	sensors = None
+	logger = None
+	cfg = None
+	burn_time = None
+	keep_fds = None
 
 	def config(self):
 		try:

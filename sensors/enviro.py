@@ -3,16 +3,16 @@ from yaml import load
 from envirophat import light, weather, motion, analog, leds
 
 class Enviro(object):
-	logger = ""
-	cfg = ""
-	keep_fds = ""
-	precision = ""
+	logger = None
+	cfg = None
+	keep_fds = None
+	precision = None
 
 	def __init__(self):
 		# BME680
 		self.config()
 		self.logger()
-		self.precision = cfg["enviro"]["precision"]
+		self.precision = self.cfg["enviro"]["precision"]
 
 	def config(self):
 		try:
