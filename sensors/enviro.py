@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 
-import sys, signal, asyncio, time,logging, json, yaml
+import sys, signal, asyncio, time,logging, json
 from envirophat import light, weather, motion, analog, leds
+from yaml import load, dump
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 with open("config.yml", "r") as ymlfile:
-    cfg = yaml.load(ymlfile)
+    cfg = load(ymlfile, Loader=Loader)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

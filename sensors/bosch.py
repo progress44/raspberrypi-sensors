@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 
-import sys, signal, asyncio, time, bme680,logging, json, yaml
+import sys, signal, asyncio, time, bme680,logging, json
+from yaml import load, dump
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 with open("config.yml", "r") as ymlfile:
-    cfg = yaml.load(ymlfile)
+    cfg = load(ymlfile, Loader=Loader)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -31,7 +36,7 @@ class Bosch(object):
 	def __init__(self):
 		# BME680
 		self.sensors = bme680.BME680()
-		setup()
+		self.setup()
 
 	def temp(self):
 		if self.sensors.get_sensor_data():

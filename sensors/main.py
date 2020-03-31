@@ -1,14 +1,19 @@
 #!/usr/bin/env python
 
-import sys, signal, asyncio, time,logging, json, yaml
+import sys, signal, asyncio, time,logging, json
 from daemonize import Daemonize
 from daemon import Daemon
 from requests import post, get
 from bosch import Bosch
 from enviro import Enviro
+from yaml import load, dump
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 with open("config.yml", "r") as ymlfile:
-    cfg = yaml.load(ymlfile)
+    cfg = load(ymlfile, Loader=Loader)
 
 loop = asyncio.get_event_loop()
 pid = cfg["main"]["pid"]
