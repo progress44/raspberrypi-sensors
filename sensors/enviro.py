@@ -10,7 +10,7 @@ class Enviro(object):
 
 	def __init__(self):
 		# BME680
-		self.confg()
+		self.config()
 		self.logger()
 		self.precision = cfg["enviro"]["precision"]
 

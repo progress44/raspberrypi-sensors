@@ -7,7 +7,7 @@ class Mapping(object):
 	
 	def __init__(self):
 		# BME680
-		self.confg()
+		self.config()
 		
 	def config(self):
 		try:

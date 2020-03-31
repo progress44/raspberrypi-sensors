@@ -43,7 +43,7 @@ class Bosch(object):
 
 	def __init__(self):
 		# BME680
-		self.confg()
+		self.config()
 		self.logger()
 		self.sensors = bme680.BME680()
 		self.setup()

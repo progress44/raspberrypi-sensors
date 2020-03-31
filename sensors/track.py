@@ -27,7 +27,7 @@ class Track(object):
         self.keep_fds = [fh.stream.fileno()]
 
     def __init__(self):
-        self.confg()
+        self.config()
         self.logger()
         self.endpoint = cfg["tracker"]["endpoint"]
 
