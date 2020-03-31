@@ -4,12 +4,12 @@ from envirophat import light, weather, motion, analog, leds
 
 class Mapping(object):
 	cfg = ""
-    
-    def __init__(self):
+	
+	def __init__(self):
 		# BME680
 		self.confg()
 		
-    def config(self):
+	def config(self):
 		try:
 			from yaml import CLoader as Loader
 		except ImportError:
@@ -19,40 +19,40 @@ class Mapping(object):
 			self.cfg = load(ymlfile, Loader=Loader)
 
 
-    async def fastSensors():
-        Enviro.lightsOn()
-        time.sleep(0.1)
-        Enviro.lightsOff()
+	async def fastSensors():
+		Enviro.lightsOn()
+		time.sleep(0.1)
+		Enviro.lightsOff()
 
-        temp 		= {"enviro": Enviro.temp(), "bosch": bosch.temp()}
-        pressure 	= {"enviro": Enviro.pressure(), "bosch": bosch.pressure()}
-        humidity 	= {"bosch": bosch.humidity()}
-        motion 		= {"enviro": Enviro.motion()}
-        light 		= {"enviro": { "lumen": Enviro.light(), "colors": Enviro.RGB()}}
-        analog 		= {"enviro": Enviro.analog()}
+		temp 		= {"enviro": Enviro.temp(), "bosch": bosch.temp()}
+		pressure 	= {"enviro": Enviro.pressure(), "bosch": bosch.pressure()}
+		humidity 	= {"bosch": bosch.humidity()}
+		motion 		= {"enviro": Enviro.motion()}
+		light 		= {"enviro": { "lumen": Enviro.light(), "colors": Enviro.RGB()}}
+		analog 		= {"enviro": Enviro.analog()}
 
-        final 		= {
-            "time": "%.20f" % time.time(),
-            "temp": temp,
-            "pressure": pressure,
-            "humidity": humidity,
-            "motion": motion,
-            "light": light,
-            "analog": analog
-        }
+		final 		= {
+			"time": "%.20f" % time.time(),
+			"temp": temp,
+			"pressure": pressure,
+			"humidity": humidity,
+			"motion": motion,
+			"light": light,
+			"analog": analog
+		}
 
-        return final
+		return final
 
-    async def slowSensors():
-        Enviro.lightsOn()
-        time.sleep(0.1)
-        Enviro.lightsOff()
+	async def slowSensors():
+		Enviro.lightsOn()
+		time.sleep(0.1)
+		Enviro.lightsOff()
 
-        aq = await bosch.airQuality()
+		aq = await bosch.airQuality()
 
-        final = {
-            "time": "%.20f" % time.time(),
-            "air_quality": {"bosch": aq}
-        }
-        
-        return final
+		final = {
+			"time": "%.20f" % time.time(),
+			"air_quality": {"bosch": aq}
+		}
+		
+		return final

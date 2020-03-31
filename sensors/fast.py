@@ -34,11 +34,11 @@ def logger():
     keep_fds = [fh.stream.fileno()]
 
 async def trackFast():
-	final = Mapping.fastSensors()
-	logger.debug(json.dumps(final))
+    final = Mapping.fastSensors()
+    logger.debug(json.dumps(final))
 
-	# make server request
-	r = Track.event(final)
+    # make server request
+    r = Track.event(final)
 
 
 
@@ -47,20 +47,20 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 async def runner():
-	time.sleep(cfg["main"]["interval"])
+    time.sleep(cfg["main"]["interval"])
 
-	await fastSensors()
-	asyncio.ensure_future(runner())
+    await fastSensors()
+    asyncio.ensure_future(runner())
 
-	return None
+    return None
 
 def main():
-	signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
     
     bosch = Bosch()
     
-	asyncio.ensure_future(runner())
-	loop.run_forever()
+    asyncio.ensure_future(runner())
+    loop.run_forever()
 
 if __name__ == "__main__":
-	main()
+    main()

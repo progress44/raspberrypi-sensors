@@ -8,12 +8,12 @@ from bosch import Bosch
 from enviro import Enviro
 from yaml import load, dump
 try:
-    from yaml import CLoader as Loader, CDumper as Dumper
+	from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
-    from yaml import Loader, Dumper
+	from yaml import Loader, Dumper
 
 with open("config.yml", "r") as ymlfile:
-    cfg = load(ymlfile, Loader=Loader)
+	cfg = load(ymlfile, Loader=Loader)
 
 loop = asyncio.get_event_loop()
 pid = cfg["main"]["pid"]
@@ -54,8 +54,8 @@ async def fastSensors():
 
 	# make server request
 	r = post(endpoint, headers = {
-        	"Content-Type": "application/json; charset=utf-8",
-        }, data = json.dumps(final))
+			"Content-Type": "application/json; charset=utf-8",
+		}, data = json.dumps(final))
 	logger.debug(r)
 
 	return None
@@ -75,15 +75,15 @@ async def slowSensors():
 
 	# make server request
 	r = post(endpoint, headers = {
-                "Content-Type": "application/json; charset=utf-8",
-        }, data = json.dumps(final))
+				"Content-Type": "application/json; charset=utf-8",
+		}, data = json.dumps(final))
 	logger.debug(r)
 
 	return aq
 
 def signal_handler(signal, frame):
-    loop.stop()
-    sys.exit(0)
+	loop.stop()
+	sys.exit(0)
 
 async def runner():
 	time.sleep(cfg["main"]["interval"])
