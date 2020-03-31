@@ -71,6 +71,7 @@ class Bosch(object):
 		gas_baseline = sum(burn_in_data[-50:]) / 50.0
 		hum_baseline = 40.0
 		hum_weighting = 0.25
+		air_quality_score = None
 
 		if self.sensors.get_sensor_data() and self.sensors.data.heat_stable:
 			hum_offset = self.sensors.data.humidity - hum_baseline
