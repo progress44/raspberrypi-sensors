@@ -10,7 +10,7 @@ enviro:
   precision: 4
 
 main: 
-  interval: 5
+  interval: 30
   log_file: storage/sensors.log
   pid: storage/sensors.pid
   
