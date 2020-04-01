@@ -6,14 +6,12 @@ from config import Config
 class Enviro(object):
 	logger = None
 	cfg = None
-	keep_fds = None
-	precision = None
 
 	def __init__(self):
 		# BME680
-		self.cfg = Config().get()
-		self.logger = Log(self.cfg["enviro"]["log_file"]).get()
-		self.precision = self.cfg["enviro"]["precision"]
+		Enviro.cfg = Config().get()
+		Enviro.logger = Log(Enviro.cfg["enviro"]["log_file"]).get()
+		self.precision = Enviro.cfg["enviro"]["precision"]
 
 	# EnviroPHAT
 	def lightsOn(self):
@@ -26,25 +24,25 @@ class Enviro(object):
 		try:
 			return round(weather.temperature(), self.precision)
 		except:
-			self.logger.debug('Could not get temperature')
+			Enviro.logger.debug('Could not get temperature')
 
 	def pressure(self):
 		try:
 			return round(weather.pressure(), self.precision)
 		except:
-			self.logger.debug('Could not get pressure')
+			Enviro.logger.debug('Could not get pressure')
 
 	def light(self):
 		try:
 			return light.light()
 		except:
-			self.logger.debug('Could not get data from light sensor')
+			Enviro.logger.debug('Could not get data from light sensor')
 
 	def RGB(self):
 		try:
 			return light.rgb()
 		except:
-			self.logger.debug('Could not get data from light rgb sensor')
+			Enviro.logger.debug('Could not get data from light rgb sensor')
 
 	def magnet(self):
 		try:
@@ -55,7 +53,7 @@ class Enviro(object):
 				"z": magnet[2]
 			}
 		except:
-			self.logger.debug('Could not get data from magnetometer')
+			Enviro.logger.debug('Could not get data from magnetometer')
 
 	def accel(self):
 		try:
@@ -66,7 +64,7 @@ class Enviro(object):
 				"z": accel[2]
 			}
 		except:
-			self.logger.debug('Could not get data from accelerometer')
+			Enviro.logger.debug('Could not get data from accelerometer')
 
 	def motion(self):
 		try:
@@ -76,10 +74,10 @@ class Enviro(object):
 				"heading": motion.heading()
 			}
 		except:
-			self.logger.debug('Could not get data from motion sensors')
+			Enviro.logger.debug('Could not get data from motion sensors')
 
 	def analog(self):
 		try:
 			return analog.read_all()
 		except:
-			self.logger.debug('Could not get analog data')
+			Enviro.logger.debug('Could not get analog data')

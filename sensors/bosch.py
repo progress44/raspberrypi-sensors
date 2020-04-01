@@ -4,17 +4,14 @@ from log import Log
 from config import Config
 
 class Bosch(object):
-	sensors = None
 	logger = None
 	cfg = None
-	burn_time = None
-	keep_fds = None
 
 	def __init__(self):
 		# BME680
-		self.cfg = Config().get()
-		self.logger = Log(self.cfg["bosch"]["log_file"]).get()
-		self.burn_time = self.cfg["bosch"]["burn_time"]
+		Bosch.cfg = Config().get()
+		Bosch.logger = Log(Bosch.cfg["bosch"]["log_file"]).get()
+		self.burn_time = Bosch.cfg["bosch"]["burn_time"]
 		
 		self.sensors = bme680.BME680()
 		self.setup()
@@ -26,9 +23,9 @@ class Bosch(object):
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
 		self.sensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
 
-		# self.sensors.set_gas_heater_temperature(self.cfg["bosch"]["heater_temp"])
-		# self.sensors.set_gas_heater_duration(self.cfg["bosch"]["heater_duration"])
-		# self.sensors.select_gas_heater_profile(self.cfg["bosch"]["heater_profile"])
+		# self.sensors.set_gas_heater_temperature(Bosch.cfg["bosch"]["heater_temp"])
+		# self.sensors.set_gas_heater_duration(Bosch.cfg["bosch"]["heater_duration"])
+		# self.sensors.select_gas_heater_profile(Bosch.cfg["bosch"]["heater_profile"])
 
 	def temp(self):
 		if self.sensors.get_sensor_data():
@@ -64,7 +61,7 @@ class Bosch(object):
 			curr_time = time.time()
 			if self.sensors.get_sensor_data() and self.sensors.data.heat_stable:
 				gas = self.sensors.data.gas_resistance
-				self.logger.debug("Gas resistance: " + str(gas))
+				Bosch.logger.debug("Gas resistance: " + str(gas))
 				burn_in_data.append(gas)
 				time.sleep(1)
 
@@ -88,10 +85,10 @@ class Bosch(object):
 				gas_score = 100 - (hum_weighting * 100)
 
 			air_quality_score = hum_score + gas_score
-			self.logger.debug(air_quality_score)
+			Bosch.logger.debug(air_quality_score)
 		else:
-			self.logger.debug("Bosch heat unstable: " + self.sensors.data.heat_stable)
-			self.logger.debug("Bosch sensor data: " + self.sensors.get_sensor_data())
+			Bosch.logger.debug("Bosch heat unstable: " + self.sensors.data.heat_stable)
+			Bosch.logger.debug("Bosch sensor data: " + self.sensors.get_sensor_data())
 
 		self.sensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
 		return air_quality_score

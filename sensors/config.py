@@ -9,13 +9,16 @@ class Config(object):
 		self.config(dir_path + file)
 
 	def config(self, file):
+		if cfg != None:
+			return None
+		
 		try:
 			from yaml import CLoader as Loader
 		except ImportError:
 			from yaml import Loader
 
 		with open(file, "r") as ymlfile:
-			self.cfg = load(ymlfile, Loader=Loader)
+			Config.cfg = load(ymlfile, Loader=Loader)
 	
 	def get(self):
-		return self.cfg
+		return Config.cfg
