@@ -21,11 +21,11 @@ class Bosch(object):
 		self.sensors.set_pressure_oversample(bme680.OS_4X)
 		self.sensors.set_temperature_oversample(bme680.OS_8X)
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
-		self.sensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
+		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
 
-		# self.sensors.set_gas_heater_temperature(Bosch.cfg["bosch"]["heater_temp"])
-		# self.sensors.set_gas_heater_duration(Bosch.cfg["bosch"]["heater_duration"])
-		# self.sensors.select_gas_heater_profile(Bosch.cfg["bosch"]["heater_profile"])
+		self.sensors.set_gas_heater_temperature(Bosch.cfg["bosch"]["heater_temp"])
+		self.sensors.set_gas_heater_duration(Bosch.cfg["bosch"]["heater_duration"])
+		self.sensors.select_gas_heater_profile(Bosch.cfg["bosch"]["heater_profile"])
 
 	def temp(self):
 		if self.sensors.get_sensor_data():
@@ -46,16 +46,10 @@ class Bosch(object):
 			return None
 
 	async def airQuality(self):
-		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
-
 		start_time = time.time()
 		curr_time = time.time()
 		burn_in_time = self.burn_time
 		burn_in_data = []
-
-		self.sensors.set_gas_heater_temperature(320)
-		self.sensors.set_gas_heater_duration(150)
-		self.sensors.select_gas_heater_profile(0)
 
 		while curr_time - start_time < burn_in_time:
 			curr_time = time.time()
@@ -85,11 +79,10 @@ class Bosch(object):
 				gas_score = 100 - (hum_weighting * 100)
 
 			air_quality_score = hum_score + gas_score
-			Bosch.logger.debug(air_quality_score)
+			Bosch.logger.debug("Bosch Air Quality: " + str(air_quality_score))
 		else:
 			Bosch.logger.debug("Bosch heat unstable: " + str(self.sensors.data.heat_stable))
 			Bosch.logger.debug("Bosch sensor data: " + str(self.sensors.get_sensor_data()))
 			return 0
-
-		self.sensors.set_gas_status(bme680.DISABLE_GAS_MEAS)
+			
 		return air_quality_score
