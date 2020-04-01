@@ -5,12 +5,7 @@ class Log(object):
 
 	def __init__(self, file):
 		dir_path = os.path.dirname(os.path.realpath(__file__)) +"/"
-
-		# init instance vars
-		self.logger = None
-
 		self.logger_setup(dir_path + file)
-		self.logger = logging.getLogger(__name__)
 
 	def logger_setup(self, file):
 		for loaded in Log.loadedFiles:
@@ -19,6 +14,7 @@ class Log(object):
 
 		Log.loadedFiles = Log.loadedFiles + [file]
 		
+		self.logger = logging.getLogger(__name__)
 		self.logger.setLevel(logging.DEBUG)
 		self.logger.propagate = False
 		fh = logging.FileHandler(file, "w")
