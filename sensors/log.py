@@ -10,6 +10,8 @@ class Log(object):
 	def logger_setup(self, file):
 		for loaded in Log.loadedFiles:
 			if loaded == file:
+				print(loaded)
+				print(file)
 				return None
 
 		Log.loadedFiles = Log.loadedFiles + [file]
