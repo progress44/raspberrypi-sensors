@@ -9,7 +9,7 @@ class Config(object):
 		self.config(dir_path + file)
 
 	def config(self, file):
-		if cfg != None:
+		if Config.cfg != None:
 			return None
 		
 		try:
