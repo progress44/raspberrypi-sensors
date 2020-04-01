@@ -10,7 +10,8 @@ class Log(object):
 	def logger_setup(self, file):
 		for loaded in Log.loadedFiles.keys():
 			if loaded == file:
-				return Log.loadedFiles[file]
+				self.logger = Log.loadedFiles[file]
+				return None
 
 		self.logger = logging.getLogger(__name__)
 		self.logger.setLevel(logging.DEBUG)
