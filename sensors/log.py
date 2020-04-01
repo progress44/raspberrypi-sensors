@@ -5,6 +5,10 @@ class Log(object):
 
 	def __init__(self, file):
 		dir_path = os.path.dirname(os.path.realpath(__file__)) +"/"
+
+		# init instance vars
+		self.logger = None
+
 		self.logger_setup(dir_path + file)
 		self.logger = logging.getLogger(__name__)
 
