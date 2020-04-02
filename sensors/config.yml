@@ -1,6 +1,6 @@
 bosch:
   log_file: storage/sensors-bosch.log
-  burn_time: 30
+  burn_time: 5
   heater_temp: 320
   heater_duration: 150
   heater_profile: 0
