@@ -13,7 +13,7 @@ class Log(object):
 				self.logger = Log.loadedFiles[file]
 				return None
 
-		self.logger = logging.getLogger(__name__)
+		self.logger = logging.getLogger(file)
 		self.logger.setLevel(logging.DEBUG)
 		self.logger.propagate = False
 		fh = logging.FileHandler(file, "w")

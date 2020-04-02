@@ -23,9 +23,9 @@ class Bosch(object):
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
 		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
 
-		self.sensors.set_gas_heater_temperature(Bosch.cfg["bosch"]["heater_temp"])
-		self.sensors.set_gas_heater_duration(Bosch.cfg["bosch"]["heater_duration"])
-		self.sensors.select_gas_heater_profile(Bosch.cfg["bosch"]["heater_profile"])
+		# self.sensors.set_gas_heater_temperature(Bosch.cfg["bosch"]["heater_temp"])
+		# self.sensors.set_gas_heater_duration(Bosch.cfg["bosch"]["heater_duration"])
+		# self.sensors.select_gas_heater_profile(Bosch.cfg["bosch"]["heater_profile"])
 
 	def temp(self):
 		if self.sensors.get_sensor_data():
