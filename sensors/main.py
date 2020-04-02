@@ -34,7 +34,6 @@ def main():
     except getopt.GetoptError as err:
         # print help information and exit:
         print(str(err))  # will print something like "option -a not recognized"
-        usage()
         sys.exit(2)
 
     global process
@@ -45,7 +44,6 @@ def main():
         elif o in ("-s"):
             process = 2
         elif o in ("-h", "--help"):
-            usage()
             sys.exit()
         else:
             assert False, "unhandled option"
