@@ -23,9 +23,12 @@ class Bosch(object):
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
 		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
 
-		self.sensors.set_gas_heater_temperature(350)
-		self.sensors.set_gas_heater_duration(120)
-		self.sensors.select_gas_heater_profile(0)
+		try:
+			self.sensors.set_gas_heater_temperature(350)
+			self.sensors.set_gas_heater_duration(120)
+			self.sensors.select_gas_heater_profile(0)
+		except:
+			Bosch.logger('Could not set heater profile')
 
 	def temp(self):
 		if self.sensors.get_sensor_data():
