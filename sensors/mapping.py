@@ -7,7 +7,6 @@ class Mapping(object):
 	
 	def __init__(self):
 		# BME680
-		self.bosch = Bosch()
 		self.enviro = Enviro()
 		self.track = Track()
 
@@ -15,6 +14,7 @@ class Mapping(object):
 		self.enviro.lightsOn()
 		time.sleep(0.1)
 		self.enviro.lightsOff()
+		self.bosch = Bosch(false)
 
 		temp 		= {"enviro": self.enviro.temp(), "bosch": self.bosch.temp()}
 		pressure 	= {"enviro": self.enviro.pressure(), "bosch": self.bosch.pressure()}
@@ -39,6 +39,7 @@ class Mapping(object):
 		self.enviro.lightsOn()
 		time.sleep(0.1)
 		self.enviro.lightsOff()
+		self.bosch = Bosch(true)
 
 		aq = await self.bosch.airQuality()
 

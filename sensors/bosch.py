@@ -7,20 +7,24 @@ class Bosch(object):
 	logger = None
 	cfg = None
 
-	def __init__(self):
+	def __init__(self, enabled_heater = true):
 		# BME680
 		Bosch.cfg = Config().get()
 		Bosch.logger = Log(Bosch.cfg["bosch"]["log_file"]).get()
 		self.burn_time = Bosch.cfg["bosch"]["burn_time"]
 		
 		self.sensors = bme680.BME680()
-		self.setup()
+		self.setup(enabled_heater)
 
-	def setup(self):
+	def setup(self, enabled_heater):
 		self.sensors.set_humidity_oversample(bme680.OS_2X)
 		self.sensors.set_pressure_oversample(bme680.OS_4X)
 		self.sensors.set_temperature_oversample(bme680.OS_8X)
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
+
+		if (!enabled_heater)
+			return None
+			
 		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
 
 		try:
@@ -31,18 +35,21 @@ class Bosch(object):
 			Bosch.logger.debug('Could not set heater profile')
 
 	def temp(self):
+		Bosch.logger.debug('T Data: ' + str(self.sensors.get_sensor_data()))
 		if self.sensors.get_sensor_data():
 			return self.sensors.data.temperature
 		else:
 			return None
 
 	def pressure(self):
+		Bosch.logger.debug('P Data: ' + str(self.sensors.get_sensor_data()))
 		if self.sensors.get_sensor_data():
 			return self.sensors.data.pressure
 		else:
 			return None
 
 	def humidity(self):
+		Bosch.logger.debug('H Data: ' + str(self.sensors.get_sensor_data()))
 		if self.sensors.get_sensor_data():
 			return self.sensors.data.humidity
 		else:
