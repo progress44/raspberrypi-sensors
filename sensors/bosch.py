@@ -22,7 +22,7 @@ class Bosch(object):
 		self.sensors.set_temperature_oversample(bme680.OS_8X)
 		self.sensors.set_filter(bme680.FILTER_SIZE_3)
 
-		if (not enabled_heater)
+		if (not enabled_heater):
 			return None
 
 		self.sensors.set_gas_status(bme680.ENABLE_GAS_MEAS)
