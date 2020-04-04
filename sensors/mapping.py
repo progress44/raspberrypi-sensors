@@ -14,7 +14,7 @@ class Mapping(object):
 		self.enviro.lightsOn()
 		time.sleep(0.1)
 		self.enviro.lightsOff()
-		self.bosch = Bosch(false)
+		self.bosch = Bosch(False)
 
 		temp 		= {"enviro": self.enviro.temp(), "bosch": self.bosch.temp()}
 		pressure 	= {"enviro": self.enviro.pressure(), "bosch": self.bosch.pressure()}
@@ -39,7 +39,7 @@ class Mapping(object):
 		self.enviro.lightsOn()
 		time.sleep(0.1)
 		self.enviro.lightsOff()
-		self.bosch = Bosch(true)
+		self.bosch = Bosch(True)
 
 		aq = await self.bosch.airQuality()
 

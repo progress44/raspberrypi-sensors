@@ -7,7 +7,7 @@ class Bosch(object):
 	logger = None
 	cfg = None
 
-	def __init__(self, enabled_heater = true):
+	def __init__(self, enabled_heater = True):
 		# BME680
 		Bosch.cfg = Config().get()
 		Bosch.logger = Log(Bosch.cfg["bosch"]["log_file"]).get()
